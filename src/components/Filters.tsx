@@ -1,7 +1,7 @@
 'use client';
 
 import {MultiSelect} from "@/components/ui/mutli-select";
-import {useEffect, useState} from "react";
+import {useState} from "react";
 import {Form, FormItem, FormLabel, FormMessage} from "@/components/ui/form";
 import {useForm} from "react-hook-form";
 

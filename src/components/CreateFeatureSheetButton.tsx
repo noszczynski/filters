@@ -6,7 +6,6 @@ import {Button} from "@/components/ui/button";
 import {Form, FormControl, FormDescription, FormItem, FormLabel, FormMessage} from "@/components/ui/form";
 import {zodResolver} from "@hookform/resolvers/zod";
 import {Input} from "@/components/ui/input";
-import {Select, SelectContent, SelectItem, SelectTrigger, SelectValue} from "@/components/ui/select";
 import {create, FormSchema, type FormData} from "@/app/features/actions";
 import {useTransition} from "react";
 
@@ -18,7 +17,7 @@ export function CreateFeatureSheetButton({categories}: { categories: { label: st
         resolver: zodResolver(FormSchema),
         defaultValues: {
             name: '',
-            categoryId: '',
+            // categoryId: '',
         }
     });
 
@@ -52,24 +51,24 @@ export function CreateFeatureSheetButton({categories}: { categories: { label: st
                                 <FormMessage/>
                             </FormItem>
                         )} name="name" control={form.control}/>
-                        <Controller render={({field}) => (
-                            <FormItem>
-                                <FormLabel>Category *</FormLabel>
-                                <FormControl>
-                                    <Select aria-required={true} {...field} onValueChange={field.onChange} defaultValue={field.value}>
-                                        <SelectTrigger className="w-[180px]">
-                                            <SelectValue placeholder=""/>
-                                        </SelectTrigger>
-                                        <SelectContent>
-                                            {categories.map(({value, label}) => <SelectItem value={value}
-                                                                                            key={value}>{label}</SelectItem>)}
-                                        </SelectContent>
-                                    </Select>
-                                </FormControl>
-                                <FormDescription/>
-                                <FormMessage/>
-                            </FormItem>
-                        )} name="categoryId" control={form.control}/>
+                        {/*<Controller render={({field}) => (*/}
+                        {/*    <FormItem>*/}
+                        {/*        <FormLabel>Category *</FormLabel>*/}
+                        {/*        <FormControl>*/}
+                        {/*            <Select aria-required={true} {...field} onValueChange={field.onChange} defaultValue={field.value}>*/}
+                        {/*                <SelectTrigger className="w-[180px]">*/}
+                        {/*                    <SelectValue placeholder=""/>*/}
+                        {/*                </SelectTrigger>*/}
+                        {/*                <SelectContent>*/}
+                        {/*                    {categories.map(({value, label}) => <SelectItem value={value}*/}
+                        {/*                                                                    key={value}>{label}</SelectItem>)}*/}
+                        {/*                </SelectContent>*/}
+                        {/*            </Select>*/}
+                        {/*        </FormControl>*/}
+                        {/*        <FormDescription/>*/}
+                        {/*        <FormMessage/>*/}
+                        {/*    </FormItem>*/}
+                        {/*)} name="categoryId" control={form.control}/>*/}
                         <Button type="submit" disabled={isPending}>Dodaj</Button>
                     </form>
                 </Form>
