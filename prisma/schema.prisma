@@ -17,49 +17,76 @@ model Category {
   parent    Category?  @relation("CategoryToCategory", fields: [parentId], references: [id])
   children  Category[] @relation("CategoryToCategory")
   products  Product[]
-  features  Feature[]
   createdAt DateTime   @default(now())
-  updatedAt DateTime   @updatedAt
+  updatedAt DateTime   @default(now()) @updatedAt
 }
 
 model Product {
-  id         Int                     @id @default(autoincrement())
-  name       String
-  price      Int // in cents, to avoid floating point errors
-  image      String?
-  categoryId Int?
-  category   Category?               @relation(fields: [categoryId], references: [id])
-  features   ProductFeatureVariant[]
-  createdAt  DateTime                @default(now())
-  updatedAt  DateTime                @updatedAt
+  id             String           @id @default(uuid())
+  sku            Int              @default(autoincrement())
+  name           String
+  price          Int // in cents, to avoid floating point errors
+  image          String
+  categoryId     Int
+  category       Category         @relation(fields: [categoryId], references: [id])
+  createdAt      DateTime         @default(now())
+  updatedAt      DateTime         @default(now()) @updatedAt
+  ProductFeature ProductFeature[]
 }
 
-model Feature {
-  id         String           @id @default(uuid())
-  name       String
-  categoryId Int?
-  category   Category?        @relation(fields: [categoryId], references: [id])
-  variants   FeatureVariant[]
-  createdAt  DateTime         @default(now())
-  updatedAt  DateTime         @updatedAt
+model FeatureSet {
+  id           String         @id @default(uuid())
+  name         String
+  FeatureInSet FeatureInSet[]
+  createdAt    DateTime       @default(now())
+  updatedAt    DateTime       @default(now()) @updatedAt
 }
 
 model FeatureVariant {
-  id        String                  @id @default(uuid())
-  name      String
-  featureId String?
-  feature   Feature?                @relation(fields: [featureId], references: [id])
-  products  ProductFeatureVariant[]
-  createdAt DateTime                @default(now())
-  updatedAt DateTime                @updatedAt
+  id        String   @id @default(uuid())
+  value     String
+  featureId String
+  feature   Feature  @relation(fields: [featureId], references: [id])
+  createdAt DateTime @default(now())
+  updatedAt DateTime @default(now()) @updatedAt
 }
 
-model ProductFeatureVariant {
-  id               String          @id @default(uuid())
-  productId        Int?
-  product          Product?        @relation(fields: [productId], references: [id])
-  featureVariantId String?
-  featureVariant   FeatureVariant? @relation(fields: [featureVariantId], references: [id])
-  createdAt        DateTime        @default(now())
-  updatedAt        DateTime        @updatedAt
+model Feature {
+  id             String           @id @default(uuid())
+  name           String
+  FeatureInSet   FeatureInSet[]
+  FeatureVariant FeatureVariant[]
+  ProductFeature ProductFeature[]
+  createdAt      DateTime         @default(now())
+  updatedAt      DateTime         @default(now()) @updatedAt
+}
+
+model FeatureInSet {
+  id           String     @id @default(uuid())
+  featureId    String
+  feature      Feature    @relation(fields: [featureId], references: [id])
+  featureSetId String
+  featureSet   FeatureSet @relation(fields: [featureSetId], references: [id])
+  createdAt    DateTime   @default(now())
+  updatedAt    DateTime   @default(now()) @updatedAt
+}
+
+model ProductFeatureValue {
+  id               String         @id @default(uuid())
+  productFeatureId String
+  productFeature   ProductFeature @relation(fields: [productFeatureId], references: [id])
+  value            String         @default("")
+  createdAt        DateTime       @default(now())
+  updatedAt        DateTime       @default(now()) @updatedAt
+}
+
+model ProductFeature {
+  id                  String                @id @default(uuid())
+  productId           String
+  product             Product               @relation(fields: [productId], references: [id])
+  featureId           String
+  feature             Feature               @relation(fields: [featureId], references: [id])
+  ProductFeatureValue ProductFeatureValue[]
+  createdAt           DateTime              @default(now())
+  updatedAt           DateTime              @default(now()) @updatedAt
 }

@@ -2,8 +2,13 @@ import type { Metadata } from 'next'
 import { Inter } from 'next/font/google'
 import './globals.css'
 import {ReactNode} from "react";
+import dayjs from "dayjs";
+import localeEn from 'dayjs/locale/en';
+import relativeTime from "dayjs/plugin/relativeTime";
+const inter = Inter({ subsets: ['latin'] });
 
-const inter = Inter({ subsets: ['latin'] })
+dayjs.locale(localeEn);
+dayjs.extend(relativeTime);
 
 export const metadata: Metadata = {
   title: 'Create Next App',
